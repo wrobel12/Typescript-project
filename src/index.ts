@@ -42,15 +42,34 @@
   }
 
 
+  function addNewHtmlColumn(html:string): void {
+    let columnSpace:HTMLElement = document.getElementById("notes")
+    let newDiv:HTMLElement = document.createElement("div");
+    newDiv.innerHTML = html;
+  
+    columnSpace.appendChild(newDiv)
+
+  }
+
+  function addNewHtmlTask(elementId:string, html:string): void {
+    let element:HTMLElement = document.getElementById(elementId);
+    let parent:HTMLElement = element.parentElement.parentElement
+    let newDiv:HTMLElement = document.createElement("div");
+    newDiv.innerHTML = html;
+  
+    parent.appendChild(newDiv);
+  }
+
+
 // get columns from storage and load then on the page
 
 function loadColumns() :void {
-  let listOfColumns = JSON.parse(localStorage.getItem('columns'));
+  let listOfColumns:Array<string> = JSON.parse(localStorage.getItem('columns'));
   let html: string = "";
         
         if (listOfColumns !== null) {
         
-          listOfColumns.forEach(function(element, index:number): void {
+          listOfColumns.forEach(function(element:string, index:number): void {
         
 
               html += `
@@ -64,31 +83,19 @@ function loadColumns() :void {
               </div>
               </div> `;
 
-              
-                  
-              let columnSpace:HTMLElement = document.getElementById("notes")
-              let newDiv:HTMLElement = document.createElement("div");
-              newDiv.innerHTML = html;
-            
-              columnSpace.appendChild(newDiv)
+              addNewHtmlColumn(html)
 
               html = "";
 
-              element.notes.forEach(function(elem, index:number):void {
+              element.notes.forEach(function(elem:string, index:number):void {
 
                 let renderTask = `
 
-                <div class="form-group" style="margin: 10px" id="${elem.id}" draggable="true" ondragstart="drag(event, this.title)">
+                <div class="form-group" style="margin: 10px" id="${elem.id}" draggable="true" ondragstart="drag(event)">
                 <textarea class="form-control" id="" rows="3">${elem.title}</textarea>
               </div> `;
             
-            
-                let element:HTMLElement = document.getElementById(elem.parentId);
-                let parent:HTMLElement = element.parentElement.parentElement
-                let newDiv:HTMLElement = document.createElement("div");
-                newDiv.innerHTML = renderTask;
-              
-                parent.appendChild(newDiv);
+                addNewHtmlTask(elem.parentId, renderTask);
 
                 renderTask = "";
               });
@@ -106,11 +113,24 @@ class Note {
   id:number
   parentId:number
 
-  constructor(givenValue:string, givenIndex:number, givenId) {
+  constructor(givenValue:string, givenIndex:number, givenId:number) {
     this.title = givenValue;
     this.parentId = givenIndex;
     this.id = givenId;
 }
+
+getTaskTitle() {
+  return this.title
+}
+
+getTaskId() {
+  return this.id
+}
+
+getTaskParentId() {
+  return this.parentId
+}
+
 }
 
 
@@ -130,29 +150,32 @@ class Column {
         // create new column object with given title
         this.column = new Column(this.title)
 
-        // get columns from storage
-        let array: string = localStorage.getItem("columns");
-
-        let newListOfColumns;
-       
-        if (array == null) {
-          newListOfColumns = this.column;
-          } else {
-            newListOfColumns = JSON.parse(array);
-          }
-
-         
-         let columsArray:Array<Column> = Array.from(newListOfColumns);
-         columsArray.push(this.column)
-
-
-        localStorage.setItem('columns', JSON.stringify(columsArray))
+        this.updateLocalStorage()
 
         let columnSpace:HTMLElement = document.getElementById("notes")
         columnSpace.innerHTML = "";
 
         loadColumns();
       
+    }
+
+    updateLocalStorage(): void {
+      let array: string = localStorage.getItem("columns");
+
+      let newListOfColumns;
+     
+      if (array == null) {
+        newListOfColumns = this.column;
+        } else {
+          newListOfColumns = JSON.parse(array);
+        }
+
+       
+       let columsArray:Array<Column> = Array.from(newListOfColumns);
+       columsArray.push(this.column)
+
+
+      localStorage.setItem('columns', JSON.stringify(columsArray))
     }
 
 
@@ -215,6 +238,8 @@ parent.appendChild(div);
   }
 
 
+
+
   function getTaskInformation(index) {
     
     let taskDetails:string = (<HTMLTextAreaElement>document.getElementById('taskDetails')).value;
@@ -225,9 +250,6 @@ parent.appendChild(div);
     
     newListOfColumns[index].notes.push(note);
     localStorage.setItem('columns', JSON.stringify(newListOfColumns))
-
-    console.log("taskDetails", taskDetails);
-    console.log("note title", note.title)
 
     let html:string = `
 
@@ -252,12 +274,14 @@ parent.appendChild(div);
 
   function drag(ev):void {
     ev.dataTransfer.setData("id", ev.target.id);
-    // ev.dataTransfer.setData("parentId", ev.target.parentId);
+    
+    
+    // ev.dataTransfer.setData("oldParentId", )
 
-    let task:HTMLElement = document.getElementById(ev.target.id);
-    let parent:HTMLElement = task.parentElement.parentElement
-    console.log("Parent:", parent)
-    console.log("ParenitId:", parent.id)
+
+    // let task:HTMLElement = document.getElementById(ev.target.id);
+    // let p = task.parentElement.parentElement
+    // console.log(ev.target.parentId)
   }
 
   function drop(ev):void {
@@ -265,36 +289,76 @@ parent.appendChild(div);
     var elementId = ev.dataTransfer.getData("id");
     ev.target.appendChild(document.getElementById(elementId));
 
-    console.log(ev.target.id)
-
-    // let note = new Note(title, ev.target.id, data);
+    let title;
 
 
     let array:string = localStorage.getItem("columns");
 
     let newListOfColumns = JSON.parse(array)
 
-    let column:Column= newListOfColumns[ev.target.id]
+    console.log("Przed", newListOfColumns)
 
-
-    column.notes.map((element) => {
-      if (element.id == elementId) {
-        element.parentId = ev.target.id
+    newListOfColumns.forEach(elem => {
+      
+      elem.notes.forEach((element) => {
+        console.log("Element", element)
+        if (element.id == elementId) {
+          
+          title = element.title
+          elem.notes = elem.notes.filter(element => element.title != title);
+        }
+        
       }
-      console.log("Element from store after change", element);
-      return element
-    })
+      
+      )
 
-      localStorage.setItem('columns', JSON.stringify(newListOfColumns))
+      
+    });
 
-  //  newListOfColumns[ev.target.id].notes.push(note);
+    let note = new Note(title, ev.target.id, elementId)
 
-  //  console.log(newListOfColumns[ev.target.id]);
-  //  console.log(data);
+    newListOfColumns[ev.target.id].notes.push(note);
+    localStorage.setItem('columns', JSON.stringify(newListOfColumns))
+
+    console.log("Po", newListOfColumns)
+
+    let columnSpace: HTMLElement = document.getElementById("notes")
+    columnSpace.innerHTML = "";
+
+    loadColumns();
+
+    // console.log("Przed", newListOfColumns)
+
+    // newListOfColumns.forEach(elem => {
+    //   console.log("From for each", elem)
+    //   elem.notes.map((element) => {
+    //     if (element.parentId !== ev.target.id) {
+    //       element.parentId = ev.target.id
+    //       console.log("Element from store after change", element);
+    //     }
+        
+    //     return element
+    //   })
+      
+    // });
+
+    // newListOfColumns[ev.target.id].notes.map((element) => {
+    //   if (element.id == elementId) {
+    //     element.parentId = ev.target.id
+    //   }
+    //   console.log("Element from store after change", element);
+    //   return element
+    // })
+
+    // console.log("Po", newListOfColumns)
 
  
 
-  //  loadColumns();
+
+
+
+
+
 
   }
 

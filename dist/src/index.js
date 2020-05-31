@@ -24,6 +24,19 @@ var newColumnManager = /** @class */ (function () {
     };
     return newColumnManager;
 }());
+function addNewHtmlColumn(html) {
+    var columnSpace = document.getElementById("notes");
+    var newDiv = document.createElement("div");
+    newDiv.innerHTML = html;
+    columnSpace.appendChild(newDiv);
+}
+function addNewHtmlTask(elementId, html) {
+    var element = document.getElementById(elementId);
+    var parent = element.parentElement.parentElement;
+    var newDiv = document.createElement("div");
+    newDiv.innerHTML = html;
+    parent.appendChild(newDiv);
+}
 // get columns from storage and load then on the page
 function loadColumns() {
     var listOfColumns = JSON.parse(localStorage.getItem('columns'));
@@ -31,18 +44,11 @@ function loadColumns() {
     if (listOfColumns !== null) {
         listOfColumns.forEach(function (element, index) {
             html += "\n              <div class=\"card border-primary mb-3\" style=\"max-width: 18rem; height: 600px;\" id=\"newNote\">\n              <div class=\"card-header\">\n              <button type=\"button\" class=\"btn btn-outline-success\" id=\"" + index + "\" onclick=\"addTask(this.id)\" data-toggle=\"modal\" data-target=\"#exampleModal\">+</button>\n              <button type=\"button\" class=\"btn btn-outline-danger\" id=\"" + index + "\" onclick=\"deleteColumn(this.id)\">X</button>\n              <h5 class=\"card-title\" id=\"noteTitle\">" + element.title + "</h5>\n              </div>\n              <div class=\"card-body text-primary\" ondrop=\"drop(event)\" ondragover=\"allowDrop(event)\" id=\"" + index + "\">\n              </div>\n              </div> ";
-            var columnSpace = document.getElementById("notes");
-            var newDiv = document.createElement("div");
-            newDiv.innerHTML = html;
-            columnSpace.appendChild(newDiv);
+            addNewHtmlColumn(html);
             html = "";
             element.notes.forEach(function (elem, index) {
-                var renderTask = "\n\n                <div class=\"form-group\" style=\"margin: 10px\" id=\"" + elem.id + "\" draggable=\"true\" ondragstart=\"drag(event, this.title)\">\n                <textarea class=\"form-control\" id=\"\" rows=\"3\">" + elem.title + "</textarea>\n              </div> ";
-                var element = document.getElementById(elem.parentId);
-                var parent = element.parentElement.parentElement;
-                var newDiv = document.createElement("div");
-                newDiv.innerHTML = renderTask;
-                parent.appendChild(newDiv);
+                var renderTask = "\n\n                <div class=\"form-group\" style=\"margin: 10px\" id=\"" + elem.id + "\" draggable=\"true\" ondragstart=\"drag(event)\">\n                <textarea class=\"form-control\" id=\"\" rows=\"3\">" + elem.title + "</textarea>\n              </div> ";
+                addNewHtmlTask(elem.parentId, renderTask);
                 renderTask = "";
             });
         });
@@ -54,6 +60,15 @@ var Note = /** @class */ (function () {
         this.parentId = givenIndex;
         this.id = givenId;
     }
+    Note.prototype.getTaskTitle = function () {
+        return this.title;
+    };
+    Note.prototype.getTaskId = function () {
+        return this.id;
+    };
+    Note.prototype.getTaskParentId = function () {
+        return this.parentId;
+    };
     return Note;
 }());
 var Column = /** @class */ (function () {
@@ -64,7 +79,12 @@ var Column = /** @class */ (function () {
     Column.prototype.createNewColumn = function () {
         // create new column object with given title
         this.column = new Column(this.title);
-        // get columns from storage
+        this.updateLocalStorage();
+        var columnSpace = document.getElementById("notes");
+        columnSpace.innerHTML = "";
+        loadColumns();
+    };
+    Column.prototype.updateLocalStorage = function () {
         var array = localStorage.getItem("columns");
         var newListOfColumns;
         if (array == null) {
@@ -76,9 +96,6 @@ var Column = /** @class */ (function () {
         var columsArray = Array.from(newListOfColumns);
         columsArray.push(this.column);
         localStorage.setItem('columns', JSON.stringify(columsArray));
-        var columnSpace = document.getElementById("notes");
-        columnSpace.innerHTML = "";
-        loadColumns();
     };
     return Column;
 }());
@@ -109,8 +126,6 @@ function getTaskInformation(index) {
     var newListOfColumns = JSON.parse(array);
     newListOfColumns[index].notes.push(note);
     localStorage.setItem('columns', JSON.stringify(newListOfColumns));
-    console.log("taskDetails", taskDetails);
-    console.log("note title", note.title);
     var html = "\n\n    <div class=\"form-group\" style=\"margin: 10px\" id=\"" + newNoteId + "\" draggable=\"true\" ondragstart=\"drag(event)\">\n    <textarea class=\"form-control\" id=\"\" rows=\"3\">" + taskDetails + "</textarea>\n    </div> ";
     var task = document.getElementById(index);
     var parent = task.parentElement.parentElement;
@@ -124,32 +139,53 @@ function allowDrop(ev) {
 }
 function drag(ev) {
     ev.dataTransfer.setData("id", ev.target.id);
-    // ev.dataTransfer.setData("parentId", ev.target.parentId);
-    var task = document.getElementById(ev.target.id);
-    var parent = task.parentElement.parentElement;
-    console.log("Parent:", parent);
-    console.log("ParenitId:", parent.id);
+    // ev.dataTransfer.setData("oldParentId", )
+    // let task:HTMLElement = document.getElementById(ev.target.id);
+    // let p = task.parentElement.parentElement
+    // console.log(ev.target.parentId)
 }
 function drop(ev) {
     ev.preventDefault();
     var elementId = ev.dataTransfer.getData("id");
     ev.target.appendChild(document.getElementById(elementId));
-    console.log(ev.target.id);
-    // let note = new Note(title, ev.target.id, data);
+    var title;
     var array = localStorage.getItem("columns");
     var newListOfColumns = JSON.parse(array);
-    var column = newListOfColumns[ev.target.id];
-    column.notes.map(function (element) {
-        if (element.id == elementId) {
-            element.parentId = ev.target.id;
-        }
-        console.log("Element from store after change", element);
-        return element;
+    console.log("Przed", newListOfColumns);
+    newListOfColumns.forEach(function (elem) {
+        elem.notes.forEach(function (element) {
+            console.log("Element", element);
+            if (element.id == elementId) {
+                title = element.title;
+                elem.notes = elem.notes.filter(function (element) { return element.title != title; });
+            }
+        });
     });
+    var note = new Note(title, ev.target.id, elementId);
+    newListOfColumns[ev.target.id].notes.push(note);
     localStorage.setItem('columns', JSON.stringify(newListOfColumns));
-    //  newListOfColumns[ev.target.id].notes.push(note);
-    //  console.log(newListOfColumns[ev.target.id]);
-    //  console.log(data);
-    //  loadColumns();
+    console.log("Po", newListOfColumns);
+    var columnSpace = document.getElementById("notes");
+    columnSpace.innerHTML = "";
+    loadColumns();
+    // console.log("Przed", newListOfColumns)
+    // newListOfColumns.forEach(elem => {
+    //   console.log("From for each", elem)
+    //   elem.notes.map((element) => {
+    //     if (element.parentId !== ev.target.id) {
+    //       element.parentId = ev.target.id
+    //       console.log("Element from store after change", element);
+    //     }
+    //     return element
+    //   })
+    // });
+    // newListOfColumns[ev.target.id].notes.map((element) => {
+    //   if (element.id == elementId) {
+    //     element.parentId = ev.target.id
+    //   }
+    //   console.log("Element from store after change", element);
+    //   return element
+    // })
+    // console.log("Po", newListOfColumns)
 }
 //# sourceMappingURL=index.js.map
