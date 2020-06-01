@@ -85,7 +85,7 @@ export class Task {
   
       let html:string = `
   
-      <div class="form-group" style="margin: 10px" id="${newNoteId}" draggable="true" ondragstart="${drag(event)}">
+      <div class="form-group" style="margin: 10px" id="${newNoteId}" draggable="true">
       <textarea class="form-control" id="" rows="3">${taskDetails}</textarea>
       </div> `;
   
@@ -97,6 +97,9 @@ export class Task {
       newDiv.innerHTML = html;
     
       parent.appendChild(newDiv);
+
+      let taskForm = document.getElementById(newNoteId.toString());
+      taskForm!.addEventListener("dragstart", (e) => drag(event));
       }
       (<HTMLTextAreaElement>document.getElementById('taskDetails')).value = "";
     }

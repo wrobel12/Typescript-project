@@ -60,7 +60,7 @@ function getTaskInformation(index) {
     }
     let html = `
   
-      <div class="form-group" style="margin: 10px" id="${newNoteId}" draggable="true" ondragstart="${drag(event)}">
+      <div class="form-group" style="margin: 10px" id="${newNoteId}" draggable="true">
       <textarea class="form-control" id="" rows="3">${taskDetails}</textarea>
       </div> `;
     let task = document.getElementById(index);
@@ -69,6 +69,8 @@ function getTaskInformation(index) {
         let newDiv = document.createElement("div");
         newDiv.innerHTML = html;
         parent.appendChild(newDiv);
+        let taskForm = document.getElementById(newNoteId.toString());
+        taskForm.addEventListener("dragstart", (e) => drag(event));
     }
     document.getElementById('taskDetails').value = "";
 }

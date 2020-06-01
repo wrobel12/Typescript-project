@@ -42,13 +42,15 @@ function getTaskInformation(index) {
         newListOfColumns[index].notes.push(note);
         localStorage.setItem('columns', JSON.stringify(newListOfColumns));
     }
-    var html = "\n  \n      <div class=\"form-group\" style=\"margin: 10px\" id=\"" + newNoteId + "\" draggable=\"true\" ondragstart=\"" + index_1.drag(event) + "\">\n      <textarea class=\"form-control\" id=\"\" rows=\"3\">" + taskDetails + "</textarea>\n      </div> ";
+    var html = "\n  \n      <div class=\"form-group\" style=\"margin: 10px\" id=\"" + newNoteId + "\" draggable=\"true\">\n      <textarea class=\"form-control\" id=\"\" rows=\"3\">" + taskDetails + "</textarea>\n      </div> ";
     var task = document.getElementById(index);
     if (task) {
         var parent_2 = task.parentElement.parentElement;
         var newDiv = document.createElement("div");
         newDiv.innerHTML = html;
         parent_2.appendChild(newDiv);
+        var taskForm = document.getElementById(newNoteId.toString());
+        taskForm.addEventListener("dragstart", function (e) { return index_1.drag(event); });
     }
     document.getElementById('taskDetails').value = "";
 }

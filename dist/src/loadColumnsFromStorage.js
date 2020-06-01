@@ -1,5 +1,6 @@
 import { addTask } from "./Task";
 import { deleteColumn } from "./Column";
+import { drag, allowDrop, drop } from "./index";
 // get columns from storage and load them on the page
 export function loadColumns() {
     let storage = localStorage.getItem('columns');
@@ -21,7 +22,7 @@ export function loadColumns() {
               <button type="button" class="btn btn-outline-danger" id="${index}">X</button>
               <h5 class="card-title" id="noteTitle">${element.title}</h5>
               </div>
-              <div class="card-body text-primary" ondrop="drop(event)" ondragover="allowDrop(event)" id="${index}">
+              <div class="card-body text-primary" id="${index}">
               </div>
               </div> `;
             addNewHtmlColumn(html);
@@ -35,18 +36,22 @@ export function loadColumns() {
             Array.from(addTaskButton).forEach(element => {
                 element.addEventListener('click', (e) => addTask(index));
             });
+            let columnBody = document.getElementById(index.toString());
+            columnBody.addEventListener("ondragover", (e) => allowDrop);
+            columnBody.addEventListener("ondrop", (e) => drop(event));
             // if(addTaskButton) {
             //     addTaskButton.addEventListener('click', (e) => addTask(index));
             // }
-            console.log(deleteButton);
             html = "";
             element.notes.forEach(function (elem, index) {
                 let renderTask = `
 
-                <div class="form-group" style="margin: 10px" id="${elem.id}" draggable="true" ondragstart="drag(event)">
+                <div class="form-group" style="margin: 10px" id="${elem.id}" draggable="true">
                 <textarea class="form-control" id="" rows="3">${elem.title}</textarea>
               </div> `;
                 addNewHtmlTask(elem.parentId, renderTask);
+                let taskForm = document.getElementById(elem.id.toString());
+                taskForm.addEventListener("dragstart", (e) => drag(event));
                 renderTask = "";
             });
         });
