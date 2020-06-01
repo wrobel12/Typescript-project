@@ -1,3 +1,4 @@
+import { drag } from "./index";
 export class Task {
     constructor(givenValue, givenIndex, givenId) {
         this.title = givenValue;
@@ -6,6 +7,7 @@ export class Task {
     }
 }
 export function addTask(index) {
+    let id = new Date().getTime();
     let modal = `
   
       <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -24,7 +26,7 @@ export function addTask(index) {
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary" id="newTask" data-dismiss="modal">Save changes</button>
+            <button type="button" class="btn btn-primary" id="${id}" data-dismiss="modal">Save changes</button>
           </div>
         </div>
       </div>
@@ -35,10 +37,11 @@ export function addTask(index) {
         let div = document.createElement("div");
         div.innerHTML = modal;
         parent.appendChild(div);
-        let submitTaskButton = document.getElementById("newTask");
+        let submitTaskButton = document.getElementById(id.toString());
         console.log("submit", submitTaskButton);
         // protection against null value
         if (submitTaskButton) {
+            console.log("he?");
             submitTaskButton.addEventListener('click', (e) => getTaskInformation(index));
         }
     }
@@ -57,7 +60,7 @@ function getTaskInformation(index) {
     }
     let html = `
   
-      <div class="form-group" style="margin: 10px" id="${newNoteId}" draggable="true" ondragstart="drag(event)">
+      <div class="form-group" style="margin: 10px" id="${newNoteId}" draggable="true" ondragstart="${drag(event)}">
       <textarea class="form-control" id="" rows="3">${taskDetails}</textarea>
       </div> `;
     let task = document.getElementById(index);

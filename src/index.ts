@@ -292,13 +292,6 @@
   export function drag(ev):void {
     ev.dataTransfer.setData("id", ev.target.id);
     
-    
-    // ev.dataTransfer.setData("oldParentId", )
-
-
-    // let task:HTMLElement = document.getElementById(ev.target.id);
-    // let p = task.parentElement.parentElement
-    // console.log(ev.target.parentId)
   }
 
   export function drop(ev):void {
@@ -343,14 +336,6 @@
     columnSpace.innerHTML = "";
     }
     loadColumns();
-
-  
- 
-
-
-
-
-
 
 
   }

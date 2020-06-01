@@ -1,4 +1,5 @@
 import { Column } from "./Column"
+import { drag } from "./index"
 
 export class Task {
     title:string
@@ -15,6 +16,8 @@ export class Task {
 
   
     export function addTask(index:number):void {
+
+      let id = new Date().getTime();
 
       let modal:string = `
   
@@ -34,7 +37,7 @@ export class Task {
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary" id="newTask" data-dismiss="modal">Save changes</button>
+            <button type="button" class="btn btn-primary" id="${id}" data-dismiss="modal">Save changes</button>
           </div>
         </div>
       </div>
@@ -51,10 +54,11 @@ export class Task {
   div.innerHTML = modal;
   parent.appendChild(div);
 
-  let submitTaskButton:HTMLElement|null = document.getElementById("newTask");
+  let submitTaskButton:HTMLElement|null = document.getElementById(id.toString());
   console.log("submit", submitTaskButton)
   // protection against null value
   if(submitTaskButton) {
+    console.log("he?")
     submitTaskButton.addEventListener('click', (e) => getTaskInformation(index));
   }
   }
@@ -66,8 +70,6 @@ export class Task {
   
     function getTaskInformation(index) {
 
-      
-      
       let taskDetails:string = (<HTMLTextAreaElement>document.getElementById('taskDetails')).value;
       let newNoteId:number = new Date().getTime();
       let note = new Task(taskDetails, index, newNoteId);
@@ -83,7 +85,7 @@ export class Task {
   
       let html:string = `
   
-      <div class="form-group" style="margin: 10px" id="${newNoteId}" draggable="true" ondragstart="drag(event)">
+      <div class="form-group" style="margin: 10px" id="${newNoteId}" draggable="true" ondragstart="${drag(event)}">
       <textarea class="form-control" id="" rows="3">${taskDetails}</textarea>
       </div> `;
   

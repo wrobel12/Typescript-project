@@ -1,5 +1,8 @@
-import { Task } from "./Task";
-import { loadColumns } from "./loadColumnsFromStorage";
+"use strict";
+exports.__esModule = true;
+exports.drop = exports.drag = exports.allowDrop = void 0;
+var Task_1 = require("./Task");
+var loadColumnsFromStorage_1 = require("./loadColumnsFromStorage");
 // load columns and notes from storage at the beginning
 // window.onload = function(): void {
 //   loadColumns();
@@ -192,37 +195,39 @@ import { loadColumns } from "./loadColumnsFromStorage";
 //     }
 //     (<HTMLTextAreaElement>document.getElementById('taskDetails')).value = "";
 //   }
-export function allowDrop(ev) {
+function allowDrop(ev) {
     ev.preventDefault();
 }
-export function drag(ev) {
+exports.allowDrop = allowDrop;
+function drag(ev) {
     ev.dataTransfer.setData("id", ev.target.id);
 }
-export function drop(ev) {
+exports.drag = drag;
+function drop(ev) {
     ev.preventDefault();
     var elementId = ev.dataTransfer.getData("id");
     ev.target.appendChild(document.getElementById(elementId));
-    let title = "";
-    let array = localStorage.getItem("columns");
+    var title = "";
+    var array = localStorage.getItem("columns");
     if (array) {
-        let newListOfColumns = JSON.parse(array);
-        newListOfColumns.forEach(elem => {
-            elem.notes.forEach((element) => {
+        var newListOfColumns = JSON.parse(array);
+        newListOfColumns.forEach(function (elem) {
+            elem.notes.forEach(function (element) {
                 console.log("Element", element);
                 if (element.id == elementId) {
                     title = element.title;
-                    elem.notes = elem.notes.filter(element => element.title != title);
+                    elem.notes = elem.notes.filter(function (element) { return element.title != title; });
                 }
             });
         });
-        let note = new Task(title, ev.target.id, elementId);
+        var note = new Task_1.Task(title, ev.target.id, elementId);
         newListOfColumns[ev.target.id].notes.push(note);
         localStorage.setItem('columns', JSON.stringify(newListOfColumns));
     }
-    let columnSpace = document.getElementById("notes");
+    var columnSpace = document.getElementById("notes");
     if (columnSpace) {
         columnSpace.innerHTML = "";
     }
-    loadColumns();
+    loadColumnsFromStorage_1.loadColumns();
 }
-//# sourceMappingURL=index.js.map
+exports.drop = drop;
