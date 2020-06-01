@@ -8,76 +8,28 @@
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-    <script>var exports = {"__esModule": true};</script>
-    <script src="./dist/src/index.js"></script>
     <link rel="stylesheet" href="stylesheet.css">
     <title>NotePocket</title>
 </head>
-
-
-<body>
-
-       
-            
-               
+<body>             
     <div class="jumbotron jumbotron-fluid" style="width: 100%; justify-content: center;">
         <div class="container-fluid">
           <h1 class="display-4">Manage your tasks</h1>
         </div>
       </div>
-                 
-     
-                <div class="card-body" id="createNewNote">
-                    <div id="addNewColumn">
-                    <div class="card border-secondary mb-3" style="max-width: 18rem; height: 150px;">
-                          <div class="card-header"  id="addNoteCard"><div class="input-group mb-3">
-                            <input type="text" onfocus="this.value=''" value="Title" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" id="titleValue">
-                          </div></div>
-                          <div class="card-footer bg-transparent border-primary">
-                            <button type="button" class="btn btn-primary" id="createNote">Add new column</button>
-                          </div>
-                        </div>
-                      </div>
-                  
-                <div id="notes" class="row flex-nowrap">
-
-            
-                </div>
-
-                <!-- <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                  <div class="modal-dialog modal-dialog-centered">
-                    <div class="modal-content">
-                      <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">This is your fabulous task</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                          <span aria-hidden="true">&times;</span>
-                        </button>
-                      </div>
-                      <div class="modal-body">
-                        <div class="form-group" style="margin: 10px">
-                          <textarea class="form-control" id="taskDetails" rows="3"></textarea>
-                        </div>
-                      </div>
-                      <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary" id="newTask" data-dismiss="modal">Save changes</button>
-                      </div>
-                    </div>
+          <div class="card-body" id="createNewNote">
+            <div id="addNewColumn">
+              <div class="card border-secondary mb-3" style="max-width: 18rem; height: 150px;">
+                <div class="card-header"  id="addNoteCard"><div class="input-group mb-3">
+                  <input type="text" onfocus="this.value=''" value="Title" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" id="createNewColumnInput">
+                    </div></div>
+                  <div class="card-footer bg-transparent border-primary">
+                    <button type="button" class="btn btn-primary" id="createNewColumnButton">Add new column</button>
                   </div>
-                </div> -->
-         
-          
-            
-             
-                <script>
-
-
-                  let columnManager = new newColumnManager("titleValue", "createNote")
-                  // let newTask = document.getElementById("newTask");
-                  // newTask.addEventListener('click', (e) => addTask());
-
-                    
-                    </script>
-            
+              </div>
+            </div>
+                <div id="notes" class="row flex-nowrap"></div>
+               
+             <script src="./dist/bundle.js"></script>
 </body>
 </html>

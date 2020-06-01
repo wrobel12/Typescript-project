@@ -1,11 +1,8 @@
+import { newColumnManager } from "./src/newColumnManager"
+import { loadColumns } from "./src/loadColumnsFromStorage"
 
-import newColumnManager from "./src/ColumnManager"
-// import newColumnManager from './dist/Column'
-// import { Column } from './src/Column'
+window.onload = function(): void {
+    loadColumns();
+  };
 
-
-let columnManager = new newColumnManager("titleValue", "createNote")
-console.log("nana", columnManager)
-
-
-// // const app = new ();
+let columnManager = new newColumnManager("createNewColumnInput", "createNewColumnButton")
