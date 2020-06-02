@@ -1,7 +1,7 @@
   
-  import { Task } from "./Task"
+  import { Task } from "./task"
   import { loadColumns } from "./loadColumnsFromStorage"
-  import { Column } from "./Column"
+  import { Column } from "./column"
   
   
   

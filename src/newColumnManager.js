@@ -1,7 +1,7 @@
 "use strict";
 exports.__esModule = true;
 exports.newColumnManager = void 0;
-var Column_1 = require("./Column");
+var column_1 = require("./column");
 // initialization of HTML element which be responsible for
 // entering new column name and submiting it
 var newColumnManager = /** @class */ (function () {
@@ -20,7 +20,7 @@ var newColumnManager = /** @class */ (function () {
     // submit and create new column
     newColumnManager.prototype.addColumn = function () {
         var title = this.input.value;
-        this.column = new Column_1.Column(title);
+        this.column = new column_1.Column(title);
         this.column.createNewColumn();
     };
     // clean input value

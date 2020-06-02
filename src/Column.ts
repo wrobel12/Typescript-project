@@ -1,4 +1,4 @@
-import { Task } from "./Task"
+import { Task } from "./task"
 import { loadColumns } from "./loadColumnsFromStorage"
 
 

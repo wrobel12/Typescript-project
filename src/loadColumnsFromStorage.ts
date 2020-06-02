@@ -1,6 +1,6 @@
-import { Column } from "./Column"
-import { Task, addTask } from "./Task"
-import { deleteColumn } from "./Column"
+import { Column } from "./column"
+import { Task, addTask } from "./task"
+import { deleteColumn } from "./column"
 import { drag, allowDrop, drop } from "./dragAndDrop"
 
 

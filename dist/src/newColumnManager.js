@@ -1,4 +1,4 @@
-import { Column } from "./Column";
+import { Column } from "./column";
 // initialization of HTML element which be responsible for
 // entering new column name and submiting it
 export class newColumnManager {

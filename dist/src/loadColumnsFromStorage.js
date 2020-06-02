@@ -1,5 +1,5 @@
-import { addTask } from "./Task";
-import { deleteColumn } from "./Column";
+import { addTask } from "./task";
+import { deleteColumn } from "./column";
 import { drag, allowDrop, drop } from "./dragAndDrop";
 // get columns from storage and load them on the page
 export function loadColumns() {
