@@ -79,4 +79,4 @@ function getTaskInformation(index) {
     }
     loadColumns();
 }
-//# sourceMappingURL=task.js.map
+//# sourceMappingURL=Task.js.map

@@ -1,4 +1,4 @@
-import { Column } from "./column"
+import { Column } from "./Column"
 
 
 // initialization of HTML element which be responsible for

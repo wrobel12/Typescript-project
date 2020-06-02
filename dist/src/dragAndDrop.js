@@ -1,4 +1,4 @@
-import { Task } from "./task";
+import { Task } from "./Task";
 import { loadColumns } from "./loadColumnsFromStorage";
 // load columns and notes from storage at the beginning
 // window.onload = function(): void {

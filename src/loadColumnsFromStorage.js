@@ -1,8 +1,8 @@
 "use strict";
 exports.__esModule = true;
 exports.loadColumns = void 0;
-var task_1 = require("./task");
-var column_1 = require("./column");
+var Task_1 = require("./Task");
+var Column_1 = require("./Column");
 var dragAndDrop_1 = require("./dragAndDrop");
 // get columns from storage and load them on the page
 function loadColumns() {
@@ -15,9 +15,9 @@ function loadColumns() {
             addNewHtmlColumn(html);
             columnId = index;
             var deleteButton = document.getElementsByClassName("btn-outline-danger");
-            deleteButton[index].addEventListener('click', function (e) { return column_1.deleteColumn(index); });
+            deleteButton[index].addEventListener('click', function (e) { return Column_1.deleteColumn(index); });
             var addTaskButton = document.getElementsByClassName("btn-outline-success");
-            addTaskButton[index].addEventListener('click', function (e) { return task_1.addTask(index); });
+            addTaskButton[index].addEventListener('click', function (e) { return Task_1.addTask(index); });
             var columnBody = document.getElementsByClassName("card-body");
             columnBody[index].addEventListener("dragover", function (e) { return dragAndDrop_1.allowDrop(event); });
             columnBody[index].addEventListener("drop", function (e) { return dragAndDrop_1.drop(event); });

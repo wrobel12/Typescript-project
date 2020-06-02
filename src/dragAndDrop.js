@@ -1,7 +1,7 @@
 "use strict";
 exports.__esModule = true;
 exports.drop = exports.drag = exports.allowDrop = void 0;
-var task_1 = require("./task");
+var Task_1 = require("./Task");
 var loadColumnsFromStorage_1 = require("./loadColumnsFromStorage");
 // load columns and notes from storage at the beginning
 // window.onload = function(): void {
@@ -220,7 +220,7 @@ function drop(ev) {
                 }
             });
         });
-        var note = new task_1.Task(title, ev.target.id, elementId);
+        var note = new Task_1.Task(title, ev.target.id, elementId);
         newListOfColumns[ev.target.id].notes.push(note);
         localStorage.setItem('columns', JSON.stringify(newListOfColumns));
     }

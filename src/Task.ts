@@ -1,4 +1,4 @@
-import { Column } from "./column"
+import { Column } from "./Column"
 import { drag } from "./dragAndDrop"
 import { loadColumns } from "./loadColumnsFromStorage"
 
