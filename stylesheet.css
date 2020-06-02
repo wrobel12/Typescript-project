@@ -1,14 +1,43 @@
 
+#header {
+  margin-left: 25px;
+  margin-top: 50px;
+  margin-bottom: 50px;
+}
+
+#badge {
+  margin-left: 20px;
+}
+
+#createNewNote {
+  width: 289px;
+  height: 150px;
+ 
+}
+
+#addNewColumn {
+  opacity: 0.5;
+  margin-left: 10px;
+  width: 289px;
+  justify-content: center;
+}
+
+#createNewColumnInput {
+  margin-right: 20px;
+}
+#addNewColumn:hover {
+  opacity: 1;
+}
+
+#createNewColumnInput {
+  width: 50px;
+}
+
 .card-header {
   padding-left: 10px;
   padding-right: 0px;
 }
 
-#addNoteCard {
-  padding-left: 20px;
-  padding-right: 20px;
- 
-}
 
 #newNote {
   margin-left: 25px;
@@ -16,19 +45,6 @@
   text-align: center;
 }
 
-#createNewNote {
-  width: 289px;
- 
-}
-
-  #addNewColumn {
-    opacity: 0.5;
-    margin-left: 10px;
-    width: 289px;
-  }
-  #addNewColumn:hover {
-    opacity: 1;
-  }
 
 #createNote {
   margin-left: 50px;

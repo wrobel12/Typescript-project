@@ -12,16 +12,14 @@
     <title>NotePocket</title>
 </head>
 <body>             
-    <div class="jumbotron jumbotron-fluid" style="width: 100%; justify-content: center;">
-        <div class="container-fluid">
-          <h1 class="display-4">Manage your tasks</h1>
+        <div class="container-fluid" id="header">
+          <h1 class="display-4">Manage your tasks<span class="badge badge-secondary" id="badge">1.0</span></h1>
         </div>
-      </div>
-          <div class="card-body" id="createNewNote">
+          <div class="card-body">
             <div id="addNewColumn">
-              <div class="card border-secondary mb-3" style="max-width: 18rem; height: 150px;">
+              <div class="card border-secondary mb-3">
                 <div class="card-header"  id="addNoteCard"><div class="input-group mb-3">
-                  <input type="text" onfocus="this.value=''" value="Title" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" id="createNewColumnInput">
+                  <input type="text" onfocus="this.value=''" value="Title" class="form-control" id="createNewColumnInput">
                     </div></div>
                   <div class="card-footer bg-transparent border-primary">
                     <button type="button" class="btn btn-primary" id="createNewColumnButton">Add new column</button>
@@ -29,7 +27,8 @@
               </div>
             </div>
                 <div id="notes" class="row flex-nowrap"></div>
-               
+               </div>
+
              <script src="./dist/bundle.js"></script>
 </body>
 </html>
