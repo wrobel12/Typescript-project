@@ -33,6 +33,10 @@
   width: 50px;
 }
 
+#createNewColumnButton {
+  margin-left: 50px;
+}
+
 .card-header {
   padding-left: 10px;
   padding-right: 0px;

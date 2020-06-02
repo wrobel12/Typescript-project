@@ -17,7 +17,7 @@ let html: string = ""
           listOfColumns.forEach(function(element:Column, index:number): void {
         
               html += `
-              <div class="card border-primary mb-3" style="max-width: 18rem; height: 600px;" id="newNote">
+              <div class="card border-primary mb-3" style="max-width: 18rem; min-height: 600px;" id="newNote">
               <div class="card-header">
               <button type="button" class="btn btn-outline-success" id="${index}" data-toggle="modal" data-target="#exampleModal">+</button>
               <button type="button" class="btn btn-outline-danger" id="${index}">X</button>
