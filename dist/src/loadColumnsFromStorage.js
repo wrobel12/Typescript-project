@@ -31,7 +31,7 @@ export function loadColumns() {
             element.notes.forEach(function (elem, index) {
                 let renderTask = `
                 <div class="form-group" style="margin: 10px" id="${elem.id}" draggable="true">
-                <textarea class="form-control" id="" rows="3">${elem.title}</textarea>
+                <textarea class="form-control" id="" rows="3" readonly>${elem.title}</textarea>
               </div> `;
                 elem.parentId = columnId;
                 addNewHtmlTask(elem.parentId, renderTask);

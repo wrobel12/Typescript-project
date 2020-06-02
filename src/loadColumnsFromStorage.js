@@ -23,7 +23,7 @@ function loadColumns() {
             columnBody[index].addEventListener("drop", function (e) { return dragAndDrop_1.drop(event); });
             html = "";
             element.notes.forEach(function (elem, index) {
-                var renderTask = "\n                <div class=\"form-group\" style=\"margin: 10px\" id=\"" + elem.id + "\" draggable=\"true\">\n                <textarea class=\"form-control\" id=\"\" rows=\"3\">" + elem.title + "</textarea>\n              </div> ";
+                var renderTask = "\n                <div class=\"form-group\" style=\"margin: 10px\" id=\"" + elem.id + "\" draggable=\"true\">\n                <textarea class=\"form-control\" id=\"\" rows=\"3\" readonly>" + elem.title + "</textarea>\n              </div> ";
                 elem.parentId = columnId;
                 addNewHtmlTask(elem.parentId, renderTask);
                 var taskForm = document.getElementById(elem.id.toString());
