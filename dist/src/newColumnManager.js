@@ -13,11 +13,13 @@ export class newColumnManager {
             this.button.addEventListener('click', (e) => this.clearArea());
         }
     }
+    // submit and create new column
     addColumn() {
         let title = this.input.value;
         this.column = new Column(title);
         this.column.createNewColumn();
     }
+    // clean input value
     clearArea() {
         this.input.value = "Title";
     }

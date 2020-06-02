@@ -1,17 +1,10 @@
 import { addTask } from "./Task";
 import { deleteColumn } from "./Column";
-import { drag, allowDrop, drop } from "./index";
+import { drag, allowDrop, drop } from "./dragAndDrop";
 // get columns from storage and load them on the page
 export function loadColumns() {
-    let storage = localStorage.getItem('columns');
-    console.log("Po load");
-    console.log(storage);
-    let listOfColumns;
-    if (storage) {
-        storage = JSON.parse(storage);
-        listOfColumns = Array.from(storage);
-    }
-    //   let storage:string = JSON.parse(localStorage.getItem('columns'));
+    let listOfColumns = JSON.parse(localStorage.getItem('columns') || '{}');
+    let columnId = 0;
     let html = "";
     if (listOfColumns !== null) {
         listOfColumns.forEach(function (element, index) {
@@ -26,22 +19,14 @@ export function loadColumns() {
               </div>
               </div> `;
             addNewHtmlColumn(html);
-            // let deleteButton:HTMLCollectionOf<Element>|null = document.getElementsByClassName("btn-outline-success")
+            columnId = index;
             let deleteButton = document.getElementsByClassName("btn-outline-danger");
+            deleteButton[index].addEventListener('click', (e) => deleteColumn(index));
             let addTaskButton = document.getElementsByClassName("btn-outline-success");
-            // protection against null value
-            Array.from(deleteButton).forEach(element => {
-                element.addEventListener('click', (e) => deleteColumn(index));
-            });
-            Array.from(addTaskButton).forEach(element => {
-                element.addEventListener('click', (e) => addTask(index));
-            });
-            let columnBody = document.getElementById(index.toString());
-            columnBody.addEventListener("ondragover", (e) => allowDrop);
-            columnBody.addEventListener("ondrop", (e) => drop(event));
-            // if(addTaskButton) {
-            //     addTaskButton.addEventListener('click', (e) => addTask(index));
-            // }
+            addTaskButton[index].addEventListener('click', (e) => addTask(index));
+            let columnBody = document.getElementsByClassName("card-body");
+            columnBody[index].addEventListener("dragover", (e) => allowDrop(event));
+            columnBody[index].addEventListener("drop", (e) => drop(event));
             html = "";
             element.notes.forEach(function (elem, index) {
                 let renderTask = `
@@ -49,6 +34,8 @@ export function loadColumns() {
                 <div class="form-group" style="margin: 10px" id="${elem.id}" draggable="true">
                 <textarea class="form-control" id="" rows="3">${elem.title}</textarea>
               </div> `;
+                console.log(columnId);
+                elem.parentId = columnId;
                 addNewHtmlTask(elem.parentId, renderTask);
                 let taskForm = document.getElementById(elem.id.toString());
                 taskForm.addEventListener("dragstart", (e) => drag(event));
@@ -57,6 +44,7 @@ export function loadColumns() {
         });
     }
 }
+// add column to html
 function addNewHtmlColumn(html) {
     let columnSpace = document.getElementById("notes");
     let newDiv = document.createElement("div");
@@ -65,6 +53,7 @@ function addNewHtmlColumn(html) {
         columnSpace.appendChild(newDiv);
     }
 }
+// add task to html
 function addNewHtmlTask(elementId, html) {
     let element = document.getElementById(elementId.toString());
     if (element) {

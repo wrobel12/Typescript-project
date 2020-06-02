@@ -3,6 +3,7 @@ import { loadColumns } from "./loadColumnsFromStorage"
 
 
 
+// initialization of column, updating local storage of new ones and possibility to delete one
 
 export class Column {
     title:string;
@@ -33,7 +34,6 @@ export class Column {
     updateLocalStorage(): void {
       let array: string|null = localStorage.getItem("columns");
 
-      console.log(array)
       let newListOfColumns;
      
       if (array == null) {
@@ -47,13 +47,9 @@ export class Column {
        columsArray.push(this.column)
        }
 
-       console.log("Nowa kolumna", this.column)
-
       localStorage.setItem('columns', JSON.stringify(columsArray))
 
-      let anana= localStorage.getItem("columns");
 
-      console.log("Nowy storage", anana)
 
     }
 
@@ -62,8 +58,7 @@ export class Column {
 
 export function deleteColumn(index:number):void {
 
-    console.log("deeletee")
-      
+
     let array:string|null = localStorage.getItem("columns");
     let columnObj:Array<string>|null;
     if(array) {

@@ -1,6 +1,10 @@
 import { Column } from "./Column"
-import { drag } from "./index"
+import { drag } from "./dragAndDrop"
+import { loadColumns } from "./loadColumnsFromStorage"
 
+
+// initialization of task, user interaction that is connected with it (by triggering modal)
+// and getting task information to update storage and page
 export class Task {
     title:string
     id:number
@@ -17,6 +21,7 @@ export class Task {
   
     export function addTask(index:number):void {
 
+      console.log("Column id in addTask", index)
       let id = new Date().getTime();
 
       let modal:string = `
@@ -54,11 +59,10 @@ export class Task {
   div.innerHTML = modal;
   parent.appendChild(div);
 
+  console.log("Column id submitTaskButton", index)
   let submitTaskButton:HTMLElement|null = document.getElementById(id.toString());
-  console.log("submit", submitTaskButton)
   // protection against null value
   if(submitTaskButton) {
-    console.log("he?")
     submitTaskButton.addEventListener('click', (e) => getTaskInformation(index));
   }
   }
@@ -70,10 +74,10 @@ export class Task {
   
     function getTaskInformation(index) {
 
+      console.log("ParentId of task", index)
       let taskDetails:string = (<HTMLTextAreaElement>document.getElementById('taskDetails')).value;
       let newNoteId:number = new Date().getTime();
       let note = new Task(taskDetails, index, newNoteId);
-      console.log(note)
       let array: string|null = localStorage.getItem("columns");
       let newListOfColumns:Array<Column>;
       if(array) {
@@ -83,23 +87,30 @@ export class Task {
       }
     
   
-      let html:string = `
+      // let html:string = `
   
-      <div class="form-group" style="margin: 10px" id="${newNoteId}" draggable="true">
-      <textarea class="form-control" id="" rows="3">${taskDetails}</textarea>
-      </div> `;
+      // <div class="form-group" style="margin: 10px" id="${newNoteId}" draggable="true">
+      // <textarea class="form-control" id="" rows="3">${taskDetails}</textarea>
+      // </div> `;
   
   
-      let task:HTMLElement|null = document.getElementById(index);
-      if(task) {
-      let parent:HTMLElement = task.parentElement!.parentElement!
-      let newDiv:HTMLElement = document.createElement("div");
-      newDiv.innerHTML = html;
+      // let task:HTMLElement|null = document.getElementById(index);
+      // if(task) {
+      // let parent:HTMLElement = task.parentElement!.parentElement!
+      // let newDiv:HTMLElement = document.createElement("div");
+      // newDiv.innerHTML = html;
     
-      parent.appendChild(newDiv);
+      // parent.appendChild(newDiv);
 
-      let taskForm = document.getElementById(newNoteId.toString());
-      taskForm!.addEventListener("dragstart", (e) => drag(event));
-      }
+      // let taskForm = document.getElementById(newNoteId.toString());
+      // taskForm!.addEventListener("dragstart", (e) => drag(event));
+      
       (<HTMLTextAreaElement>document.getElementById('taskDetails')).value = "";
+
+
+       let columnSpace: HTMLElement|null = document.getElementById("notes")
+    if(columnSpace) {
+    columnSpace.innerHTML = "";
+    }
+    loadColumns();
     }

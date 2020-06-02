@@ -28,13 +28,13 @@ export class newColumnManager {
 
 
   }
-
+  // submit and create new column
   addColumn():void {
     let title:string = this.input.value;
     this.column = new Column(title)
     this.column.createNewColumn()
 }
-
+// clean input value
    clearArea():void {
      this.input.value = "Title"
 }
