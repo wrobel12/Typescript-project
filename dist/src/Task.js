@@ -9,10 +9,8 @@ export class Task {
     }
 }
 export function addTask(index) {
-    console.log("Column id in addTask", index);
     let id = new Date().getTime();
-    let modal = `
-  
+    let modal = ` 
       <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
@@ -40,38 +38,23 @@ export function addTask(index) {
         let div = document.createElement("div");
         div.innerHTML = modal;
         parent.appendChild(div);
-        console.log("Column id submitTaskButton", index);
         let submitTaskButton = document.getElementById(id.toString());
-        // protection against null value
         if (submitTaskButton) {
             submitTaskButton.addEventListener('click', (e) => getTaskInformation(index));
         }
     }
 }
 function getTaskInformation(index) {
-    console.log("ParentId of task", index);
     let taskDetails = document.getElementById('taskDetails').value;
     let newNoteId = new Date().getTime();
-    let note = new Task(taskDetails, index, newNoteId);
+    let task = new Task(taskDetails, index, newNoteId);
     let array = localStorage.getItem("columns");
     let newListOfColumns;
     if (array) {
         newListOfColumns = JSON.parse(array);
-        newListOfColumns[index].notes.push(note);
+        newListOfColumns[index].notes.push(task);
         localStorage.setItem('columns', JSON.stringify(newListOfColumns));
     }
-    // let html:string = `
-    // <div class="form-group" style="margin: 10px" id="${newNoteId}" draggable="true">
-    // <textarea class="form-control" id="" rows="3">${taskDetails}</textarea>
-    // </div> `;
-    // let task:HTMLElement|null = document.getElementById(index);
-    // if(task) {
-    // let parent:HTMLElement = task.parentElement!.parentElement!
-    // let newDiv:HTMLElement = document.createElement("div");
-    // newDiv.innerHTML = html;
-    // parent.appendChild(newDiv);
-    // let taskForm = document.getElementById(newNoteId.toString());
-    // taskForm!.addEventListener("dragstart", (e) => drag(event));
     document.getElementById('taskDetails').value = "";
     let columnSpace = document.getElementById("notes");
     if (columnSpace) {

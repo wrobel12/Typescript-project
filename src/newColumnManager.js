@@ -25,7 +25,7 @@ var newColumnManager = /** @class */ (function () {
     };
     // clean input value
     newColumnManager.prototype.clearArea = function () {
-        this.input.value = "Title";
+        this.input.value = "Column Title";
     };
     return newColumnManager;
 }());

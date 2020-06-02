@@ -21,7 +21,7 @@ export class newColumnManager {
     }
     // clean input value
     clearArea() {
-        this.input.value = "Title";
+        this.input.value = "Column Title";
     }
 }
 //# sourceMappingURL=newColumnManager.js.map

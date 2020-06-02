@@ -45,4 +45,4 @@ export function deleteColumn(index) {
     }
     loadColumns();
 }
-//# sourceMappingURL=column.js.map
+//# sourceMappingURL=Column.js.map

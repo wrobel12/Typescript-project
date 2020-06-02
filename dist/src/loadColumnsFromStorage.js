@@ -30,11 +30,9 @@ export function loadColumns() {
             html = "";
             element.notes.forEach(function (elem, index) {
                 let renderTask = `
-
                 <div class="form-group" style="margin: 10px" id="${elem.id}" draggable="true">
                 <textarea class="form-control" id="" rows="3">${elem.title}</textarea>
               </div> `;
-                console.log(columnId);
                 elem.parentId = columnId;
                 addNewHtmlTask(elem.parentId, renderTask);
                 let taskForm = document.getElementById(elem.id.toString());

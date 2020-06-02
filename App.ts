@@ -3,7 +3,7 @@ import { loadColumns } from "./src/loadColumnsFromStorage"
 
 // load columns from storage
 window.onload = function(): void {
-    loadColumns();
+    loadColumns()
   };
 
 // initialization of 'column manager' to start whole interaction

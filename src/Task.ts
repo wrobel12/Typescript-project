@@ -1,5 +1,4 @@
 import { Column } from "./Column"
-import { drag } from "./dragAndDrop"
 import { loadColumns } from "./loadColumnsFromStorage"
 
 
@@ -11,21 +10,16 @@ export class Task {
     parentId:number
   
     constructor(givenValue:string, givenIndex:number, givenId:number) {
-      this.title = givenValue;
-      this.parentId = givenIndex;
-      this.id = givenId;
-  }
-  
-    }
+      this.title = givenValue
+      this.parentId = givenIndex
+      this.id = givenId
+  }  
+}
 
-  
     export function addTask(index:number):void {
 
-      console.log("Column id in addTask", index)
-      let id = new Date().getTime();
-
-      let modal:string = `
-  
+      let id:number = new Date().getTime();
+      let modal:string = ` 
       <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
@@ -46,71 +40,41 @@ export class Task {
           </div>
         </div>
       </div>
-    </div> `;
+    </div> `
 
- 
-  
-  
-  let modalElement:HTMLElement|null = document.getElementById(index.toString());
+  let modalElement:HTMLElement|null = document.getElementById(index.toString())
   if(modalElement) {
   let parent:HTMLElement = modalElement.parentElement!.parentElement!
-  let div:HTMLElement = document.createElement("div");
+  let div:HTMLElement = document.createElement("div")
   
-  div.innerHTML = modal;
-  parent.appendChild(div);
+  div.innerHTML = modal
+  parent.appendChild(div)
 
-  console.log("Column id submitTaskButton", index)
-  let submitTaskButton:HTMLElement|null = document.getElementById(id.toString());
-  // protection against null value
+  let submitTaskButton:HTMLElement|null = document.getElementById(id.toString())
   if(submitTaskButton) {
-    submitTaskButton.addEventListener('click', (e) => getTaskInformation(index));
-  }
-  }
-        
+    submitTaskButton.addEventListener('click', (e) => getTaskInformation(index))
     }
-  
-  
-  
-  
+  }
+}
+   
     function getTaskInformation(index) {
 
-      console.log("ParentId of task", index)
-      let taskDetails:string = (<HTMLTextAreaElement>document.getElementById('taskDetails')).value;
-      let newNoteId:number = new Date().getTime();
-      let note = new Task(taskDetails, index, newNoteId);
-      let array: string|null = localStorage.getItem("columns");
-      let newListOfColumns:Array<Column>;
+      let taskDetails:string = (<HTMLTextAreaElement>document.getElementById('taskDetails')).value
+      let newNoteId:number = new Date().getTime()
+      let task:Task = new Task(taskDetails, index, newNoteId)
+      let array: string|null = localStorage.getItem("columns")
+      let newListOfColumns:Array<Column>
       if(array) {
       newListOfColumns = JSON.parse(array)
-      newListOfColumns[index].notes.push(note);
+      newListOfColumns[index].notes.push(task)
       localStorage.setItem('columns', JSON.stringify(newListOfColumns))
       }
-    
   
-      // let html:string = `
-  
-      // <div class="form-group" style="margin: 10px" id="${newNoteId}" draggable="true">
-      // <textarea class="form-control" id="" rows="3">${taskDetails}</textarea>
-      // </div> `;
-  
-  
-      // let task:HTMLElement|null = document.getElementById(index);
-      // if(task) {
-      // let parent:HTMLElement = task.parentElement!.parentElement!
-      // let newDiv:HTMLElement = document.createElement("div");
-      // newDiv.innerHTML = html;
-    
-      // parent.appendChild(newDiv);
+      (<HTMLTextAreaElement>document.getElementById('taskDetails')).value = ""
 
-      // let taskForm = document.getElementById(newNoteId.toString());
-      // taskForm!.addEventListener("dragstart", (e) => drag(event));
-      
-      (<HTMLTextAreaElement>document.getElementById('taskDetails')).value = "";
-
-
-       let columnSpace: HTMLElement|null = document.getElementById("notes")
-    if(columnSpace) {
-    columnSpace.innerHTML = "";
-    }
-    loadColumns();
+      let columnSpace: HTMLElement|null = document.getElementById("notes")
+        if(columnSpace) {
+          columnSpace.innerHTML = ""
+          }
+        loadColumns()
     }

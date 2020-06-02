@@ -16,7 +16,7 @@ export class Column {
         this.notes = [];
     }
 
-    createNewColumn(): void {
+    createNewColumn():void {
 
         // create new column object with given title
         this.column = new Column(this.title)
@@ -25,53 +25,43 @@ export class Column {
 
         let columnSpace:HTMLElement|null = document.getElementById("notes")
         if(columnSpace) {
-        columnSpace.innerHTML = "";
+        columnSpace.innerHTML = ""
         }
-        loadColumns();
-      
+        loadColumns()
     }
 
-    updateLocalStorage(): void {
-      let array: string|null = localStorage.getItem("columns");
-
-      let newListOfColumns;
+    updateLocalStorage():void {
+      let array: string|null = localStorage.getItem("columns")
+      let newListOfColumns
      
       if (array == null) {
-        newListOfColumns = this.column;
+        newListOfColumns = this.column
         } else {
-          newListOfColumns = JSON.parse(array);
+          newListOfColumns = JSON.parse(array)
         }
        
-       let columsArray:Array<Column> = Array.from(newListOfColumns);
+       let columsArray:Array<Column> = Array.from(newListOfColumns)
        if(this.column) {
        columsArray.push(this.column)
        }
 
       localStorage.setItem('columns', JSON.stringify(columsArray))
-
-
-
     }
-
-
 }
 
 export function deleteColumn(index:number):void {
 
-
-    let array:string|null = localStorage.getItem("columns");
-    let columnObj:Array<string>|null;
+    let array:string|null = localStorage.getItem("columns")
+    let columnObj:Array<string>|null
     if(array) {
     columnObj = JSON.parse(array)
-    columnObj!.splice(index, 1);
+    columnObj!.splice(index, 1)
     }
-    localStorage.setItem("columns", JSON.stringify(columnObj!));
+    localStorage.setItem("columns", JSON.stringify(columnObj!))
 
     let columnSpace: HTMLElement|null = document.getElementById("notes")
     if(columnSpace) {
-    columnSpace.innerHTML = "";
+    columnSpace.innerHTML = ""
     }
-    loadColumns();
-
-
+    loadColumns()
   }
